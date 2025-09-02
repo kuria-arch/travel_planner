@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <title>Travel Planner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌍 Travel Planner</h1>
+            <p>Plan your perfect trip with personalized activities</p>
+        </header>
+
+        <div class="nav-links">
+            <a href="{{ url_for('add_activity') }}">➕ Add Activity</a>
+        </div>
+
+        <section>
+            <h2>Plan Your Trip</h2>
+            <form action="/plan" method="post">
+                <label for="city">Destination City:</label>
+                <input type="text" id="city" name="city" placeholder="Enter city name" required>
+                
+                <label for="days">Number of Days:</label>
+                <input type="number" id="days" name="days" min="1" value="3" required>
+                
+                <label>Interests:</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="interests" value="culture"> Culture</label>
+                    <label><input type="checkbox" name="interests" value="food"> Food</label>
+                    <label><input type="checkbox" name="interests" value="nature"> Nature</label>
+                    <label><input type="checkbox" name="interests" value="adventure"> Adventure</label>
+                    <label><input type="checkbox" name="interests" value="shopping"> Shopping</label>
+                </div>
+                
+                <button type="submit">Generate Travel Plan</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Available Activities</h2>
+            <ul class="activity-list">
+                {% for activity in activities %}
+                    <li>
+                        <strong>{{ activity.get('activity_name', 'Unnamed Activity') }}</strong> - 
+                        {{ activity.get('city', 'Unknown City') }} • 
+                        {{ activity.get('category', 'No Category') }} • 
+                        Cost: {{ activity.get('cost_estimate', 'Free') }}
+                        
+                        {% if activity.get('image_url') %}
+                            <img src="{{ activity.get('image_url') }}" alt="{{ activity.get('activity_name', 'Activity') }}" style="max-width: 200px; height: auto; border-radius: 8px; margin: 10px 0; display: block;">
+                        {% endif %}
+                        
+                        <!-- DELETE FORM MUST BE INSIDE THE LOOP -->
+                        <form action="{{ url_for('delete_activity') }}" method="POST" style="display: inline; margin-top: 10px;">
+                            <input type="hidden" name="activity_id" value="{{ activity.get('id', '') }}">
+                            <button type="submit" onclick="return confirm('Delete this activity?')" style="background: #e53e3e; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                                ❌ Delete
+                            </button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li>No activities found. <a href="{{ url_for('add_activity') }}">Add some activities</a> to get started!</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

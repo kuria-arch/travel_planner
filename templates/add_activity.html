@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Activity</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+  <div class="container">
+  <h1>Add a New Activity</h1>
+
+  <form action="{{ url_for('add_activity') }}" method="POST">
+    <label for="activity_name">Activity Name:</label><br>
+    <input type="text" id="activity_name" name="activity_name" required><br><br>
+
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" rows="3" required></textarea><br><br>
+
+    <label for="category">Category:</label><br>
+    <select id="category" name="category" required>
+      <option value="culture">Culture</option>
+      <option value="food">Food</option>
+      <option value="nature">Nature</option>
+      <option value="adventure">Adventure</option>
+      <option value="shopping">Shopping</option>
+    </select><br><br>
+
+    <label for="cost_estimate">Cost Estimate:</label><br>
+    <input type="text" id="cost_estimate" name="cost_estimate" placeholder="€25, $40, Free, etc." required><br><br>
+
+    <label for="city">City:</label><br>
+    <input type="text" id="city" name="city" required><br><br>
+
+     <label for="image_url">Image URL (optional):</label>
+     <input type="url" id="image_url" name="image_url" placeholder="https://example.com/image.jpg">
+    
+     <button type="submit">Add Activity</button>
+  </form>
+
+  <br>
+  <a href="{{ url_for('index') }}">Back to Home</a>
+  </div>
+</body>
+</html>

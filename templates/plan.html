@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Plan for {{ city }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Your Travel Plan for {{ city }}</h1>
+
+        {% if error %}
+            <div class="error">
+                {{ error }}
+            </div>
+        {% endif %}
+        
+        {% if itinerary %}
+            {% for day, activities in itinerary.items() %}
+                <div class="itinerary-day">
+                    <h2>Day {{ day }}</h2>
+                    <ul class="activity-list">
+                        {% for activity in activities %}
+                            <li>
+                                <strong>{{ activity.get('activity_name', 'Activity') }}</strong>: 
+                                {{ activity.get('description', 'No description') }} 
+                                (Cost: {{ activity.get('cost_estimate', 'Free') }})
+                                
+                                <!-- MOVE IMAGE INSIDE THE ACTIVITY LOOP -->
+                                {% if activity.get('image_url') %}
+                                    <img src="{{ activity.get('image_url') }}" alt="{{ activity.get('activity_name', 'Activity') }}" style="max-width: 200px; height: auto; border-radius: 8px; margin: 10px 0; display: block;">
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Sorry, no activities found for your criteria! Try different interests.</p>
+        {% endif %}
+        
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">← Plan Another Trip</a>
+            <a href="{{ url_for('add_activity') }}">➕ Add More Activities</a>
+        </div>
+    </div>
+</body>
+</html>
