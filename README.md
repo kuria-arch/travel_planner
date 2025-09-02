@@ -14,7 +14,8 @@ A beautiful Flask-based web application for creating personalized travel itinera
 - **Image Support** - Add visual appeal with activity images
 
 ## 📸 Screenshots
-
+![Homepage](images/traveller1.png)
+![Homepage](images/traveller2.png)
 
 ## 🛠️ Technologies Used
 
